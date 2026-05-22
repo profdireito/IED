@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IED – Origem e Fontes do Direito</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a5c38;
+    --verde-medio: #2d7a50;
+    --verde-claro: #4caf80;
+    --verde-bg: #eaf4ee;
+    --ouro: #c9a227;
+    --ouro-claro: #f0d278;
+    --off-white: #f8f6f1;
+    --cinza: #4a4a4a;
+    --cinza-claro: #9a9a9a;
+    --branco: #ffffff;
+    --sombra: 0 4px 24px rgba(26,92,56,0.13);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--off-white);
+    color: var(--cinza);
+    min-height: 100vh;
+    font-size: 17px;
+  }
+
+  /* ─── TELA DE BOAS-VINDAS ─── */
+  #welcome-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(145deg, #0d3d24 0%, #1a5c38 50%, #0a2e1b 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  #welcome-overlay.hide {
+    opacity: 0; pointer-events: none; transform: scale(1.04);
+  }
+  .wv-glow {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: .18;
+  }
+  .wv-glow.g1 { width: 500px; height: 500px; background: var(--ouro); top: -120px; right: -100px; }
+  .wv-glow.g2 { width: 350px; height: 350px; background: var(--verde-claro); bottom: -80px; left: -60px; }
+  .wv-inner {
+    position: relative; z-index: 2;
+    text-align: center; padding: 40px 32px; max-width: 560px;
+    animation: wvIn .8s cubic-bezier(.2,.8,.3,1) both;
+  }
+  @keyframes wvIn {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: none; }
+  }
+  .wv-tag {
+    font-size: 12px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--ouro-claro); margin-bottom: 20px;
+  }
+  .wv-icon { font-size: 64px; margin-bottom: 20px; line-height: 1; }
+  .wv-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 900; color: white; line-height: 1.15; margin-bottom: 14px;
+  }
+  .wv-sub {
+    font-size: 17px; color: rgba(255,255,255,0.65);
+    font-weight: 300; line-height: 1.6; margin-bottom: 10px;
+  }
+  .wv-prof { font-size: 14px; color: var(--ouro-claro); font-weight: 600; margin-bottom: 36px; }
+  .wv-chips {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 36px;
+  }
+  .wv-chip {
+    padding: 7px 16px; border-radius: 100px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+    color: white; font-size: 13px; font-weight: 600;
+  }
+  .wv-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 40px; border-radius: 100px;
+    background: var(--ouro); color: #1a1a1a;
+    font-size: 16px; font-weight: 800;
+    font-family: 'Source Sans 3', sans-serif;
+    border: none; cursor: pointer;
+    box-shadow: 0 8px 32px rgba(201,162,39,0.4);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .wv-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,162,39,0.55); }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, var(--verde) 0%, #0d3d24 100%);
+    color: white;
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(201,162,39,0.12);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 40%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .header-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--ouro-claro);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px,4vw,38px);
+    font-weight: 900; line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  header p {
+    font-size: 17px; opacity: 0.75;
+    font-weight: 300;
+  }
+  .header-badge {
+    display: inline-block;
+    margin-top: 16px; padding: 6px 16px;
+    background: rgba(201,162,39,0.2);
+    border: 1px solid var(--ouro);
+    border-radius: 100px;
+    font-size: 12px; font-weight: 600; color: var(--ouro-claro);
+    letter-spacing: 1px;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    display: flex; gap: 8px;
+    padding: 20px 40px;
+    background: white;
+    border-bottom: 2px solid var(--verde-bg);
+    flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .nav-btn {
+    padding: 9px 20px; border-radius: 100px;
+    border: 2px solid transparent;
+    cursor: pointer; font-size: 13px; font-weight: 700;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all .22s ease;
+    letter-spacing: .4px;
+  }
+  .nav-btn.active {
+    background: var(--verde); color: white;
+    border-color: var(--verde);
+  }
+  .nav-btn:not(.active) {
+    background: transparent; color: var(--verde);
+    border-color: var(--verde-claro);
+  }
+  .nav-btn:not(.active):hover {
+    background: var(--verde-bg);
+  }
+
+  /* ─── MAIN ─── */
+  main { padding: 36px 40px; max-width: 1000px; margin: 0 auto; }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn .35s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(12px);} to { opacity:1; transform:none; } }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700;
+    color: var(--verde); margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--ouro);
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  /* ─── CONTEÚDO (mapa visual) ─── */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    border-left: 3px solid var(--verde-claro);
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    box-shadow: var(--sombra);
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .tl-item:hover { transform: translateX(4px); box-shadow: 0 6px 32px rgba(26,92,56,0.18); }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -37px; top: 22px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--ouro);
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px var(--verde-claro);
+  }
+  .tl-era {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: var(--verde-claro); margin-bottom: 4px;
+  }
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--verde); margin-bottom: 6px;
+  }
+  .tl-desc { font-size: 16px; line-height: 1.6; color: var(--cinza); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px; margin-bottom: 30px;
+  }
+  .card {
+    background: white; border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--sombra);
+    border-top: 4px solid var(--verde);
+    transition: transform .2s;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; color: var(--verde);
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 15px; line-height: 1.6; color: var(--cinza); }
+  .card .exemplo {
+    margin-top: 10px; padding: 8px 12px;
+    background: var(--verde-bg); border-radius: 8px;
+    font-size: 14px; color: var(--verde-medio); font-weight: 600;
+  }
+
+  .piramide-container {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px; margin: 24px 0;
+  }
+  .piramide-nivel {
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; font-weight: 700; font-size: 13px;
+    border-radius: 8px; color: white;
+    transition: transform .2s, filter .2s;
+    cursor: default;
+  }
+  .piramide-nivel:hover { transform: scale(1.04); filter: brightness(1.1); }
+
+  /* ─── FLASHCARDS ─── */
+  .flashcard-wrap { perspective: 1000px; }
+  .flashcard-scene {
+    width: 100%; max-width: 560px; height: 230px;
+    margin: 0 auto 24px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,.2,.2,1);
+    cursor: pointer;
+  }
+  .flashcard-scene.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--sombra);
+  }
+  .fc-front { background: linear-gradient(135deg, var(--verde), #0d3d24); color: white; }
+  .fc-back { background: white; transform: rotateY(180deg); }
+  .fc-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 14px;
+    opacity: 0.65;
+  }
+  .fc-front .fc-label { color: var(--ouro-claro); }
+  .fc-back .fc-label { color: var(--verde-claro); }
+  .fc-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700; line-height: 1.3;
+  }
+  .fc-front .fc-question { color: white; }
+  .fc-back .fc-question { color: var(--verde); }
+  .fc-hint {
+    margin-top: 12px; font-size: 13px; opacity: .55;
+  }
+  .fc-controls {
+    display: flex; justify-content: center; align-items: center; gap: 14px;
+    flex-wrap: wrap;
+  }
+  .fc-btn {
+    padding: 11px 26px; border-radius: 100px;
+    border: 2px solid var(--verde); cursor: pointer;
+    font-size: 14px; font-weight: 700;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all .2s;
+  }
+  .fc-btn.primary { background: var(--verde); color: white; }
+  .fc-btn.primary:hover { background: var(--verde-medio); }
+  .fc-btn.secondary { background: transparent; color: var(--verde); }
+  .fc-btn.secondary:hover { background: var(--verde-bg); }
+  .fc-counter { font-size: 14px; color: var(--cinza-claro); font-weight: 600; }
+  .fc-progress-bar {
+    width: 100%; max-width: 560px; height: 6px;
+    background: var(--verde-bg); border-radius: 10px;
+    margin: 0 auto 20px; overflow: hidden;
+  }
+  .fc-progress-fill {
+    height: 100%; background: var(--verde);
+    border-radius: 10px;
+    transition: width .4s ease;
+  }
+
+  /* ─── QUIZ ─── */
+  .quiz-card {
+    background: white; border-radius: var(--radius);
+    padding: 30px; box-shadow: var(--sombra);
+    max-width: 680px; margin: 0 auto;
+  }
+  .quiz-q-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--verde-claro);
+    margin-bottom: 10px;
+  }
+  .quiz-q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px; font-weight: 700;
+    color: var(--verde); line-height: 1.4;
+    margin-bottom: 22px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    padding: 13px 18px; border-radius: 10px;
+    border: 2px solid #e0ebe4; cursor: pointer;
+    font-size: 15.5px; font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    transition: all .18s;
+    background: white;
+  }
+  .quiz-opt:hover:not(.disabled) { border-color: var(--verde-claro); background: var(--verde-bg); }
+  .quiz-opt.correct { border-color: var(--verde); background: #d4edda; color: var(--verde); }
+  .quiz-opt.wrong { border-color: #dc3545; background: #fde8ea; color: #c0392b; }
+  .quiz-opt.disabled { cursor: default; }
+  .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%; background: var(--verde-bg);
+    color: var(--verde); font-weight: 800; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .18s;
+  }
+  .quiz-opt.correct .opt-letter { background: var(--verde); color: white; }
+  .quiz-opt.wrong .opt-letter { background: #dc3545; color: white; }
+  .quiz-feedback {
+    margin-top: 16px; padding: 14px 18px;
+    border-radius: 10px; font-size: 15px; font-weight: 600;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #d4edda; color: #1a5c38; border-left: 4px solid var(--verde); }
+  .quiz-feedback.wrong { background: #fde8ea; color: #c0392b; border-left: 4px solid #dc3545; }
+  .quiz-nav {
+    margin-top: 22px; display: flex; justify-content: space-between;
+    align-items: center;
+  }
+  .quiz-score {
+    font-size: 13px; font-weight: 700;
+    color: var(--cinza-claro);
+  }
+  .quiz-progress {
+    display: flex; gap: 6px; margin-bottom: 22px; flex-wrap: wrap;
+  }
+  .qp-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #e0ebe4; transition: background .3s;
+  }
+  .qp-dot.done-c { background: var(--verde); }
+  .qp-dot.done-w { background: #dc3545; }
+  .qp-dot.current { background: var(--ouro); }
+
+  /* ─── RESULTADO QUIZ ─── */
+  .resultado-wrap {
+    text-align: center; padding: 40px 20px;
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--sombra); max-width: 480px; margin: 0 auto;
+  }
+  .resultado-emoji { font-size: 60px; margin-bottom: 16px; }
+  .resultado-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; color: var(--verde); margin-bottom: 8px;
+  }
+  .resultado-score {
+    font-size: 52px; font-weight: 900; color: var(--verde);
+    margin: 14px 0 6px;
+  }
+  .resultado-score span { font-size: 20px; color: var(--cinza-claro); }
+  .resultado-msg { font-size: 15px; color: var(--cinza); margin-bottom: 24px; }
+
+  /* ─── CASO REAL ─── */
+  .caso-card {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--sombra); overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .caso-header {
+    background: linear-gradient(135deg, var(--verde), #0d3d24);
+    padding: 20px 24px; color: white;
+  }
+  .caso-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ouro-claro); margin-bottom: 6px;
+  }
+  .caso-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+  }
+  .caso-body { padding: 24px; }
+  .caso-step {
+    display: flex; gap: 16px; margin-bottom: 18px;
+  }
+  .caso-step-icon {
+    font-size: 22px; width: 44px; height: 44px;
+    background: var(--verde-bg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .caso-step-content h4 {
+    font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--verde-claro); margin-bottom: 4px;
+  }
+  .caso-step-content p { font-size: 15.5px; line-height: 1.6; }
+  .fluxo-box {
+    background: var(--verde-bg); border-radius: 10px;
+    padding: 18px 20px; margin-bottom: 12px;
+  }
+  .fluxo-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 0; border-bottom: 1px solid rgba(26,92,56,0.1);
+  }
+  .fluxo-row:last-child { border-bottom: none; }
+  .fluxo-q { font-weight: 700; color: var(--verde); font-size: 15px; flex: 1; }
+  .fluxo-a { font-size: 14.5px; color: var(--cinza); flex: 1.2; }
+  .fluxo-fonte {
+    background: var(--verde); color: white;
+    padding: 3px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 700; white-space: nowrap;
+  }
+
+  /* ─── RESUMÃO ─── */
+  .resumao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .resumao-item {
+    background: white; border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--sombra);
+    border-left: 4px solid var(--ouro);
+  }
+  .resumao-item .r-key {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--cinza-claro);
+    margin-bottom: 6px;
+  }
+  .resumao-item .r-val {
+    font-size: 15.5px; font-weight: 600; color: var(--verde);
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center; padding: 24px;
+    font-size: 12px; color: var(--cinza-claro);
+    border-top: 1px solid var(--verde-bg); margin-top: 40px;
+  }
+
+  @media (max-width: 600px) {
+    header, nav, main { padding-left: 20px; padding-right: 20px; }
+    .flashcard-scene { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ BOAS-VINDAS ══════════ -->
+<div id="welcome-overlay">
+  <div class="wv-glow g1"></div>
+  <div class="wv-glow g2"></div>
+  <div class="wv-inner">
+    <div class="wv-tag">Colégio Excelência · IED · 1º Período · 2026</div>
+    <div class="wv-icon">⚖️</div>
+    <div class="wv-title">Origem e Fontes<br>do Direito</div>
+    <div class="wv-sub">Sistema interativo de estudos para fixar o conteúdo com flashcards, quiz e casos reais.</div>
+    <div class="wv-prof">Prof. Caio Filipe Duarte Araújo</div>
+    <div class="wv-chips">
+      <span class="wv-chip">📖 Conteúdo</span>
+      <span class="wv-chip">⚖️ Fontes do Direito</span>
+      <span class="wv-chip">🃏 Flashcards</span>
+      <span class="wv-chip">✏️ Quiz</span>
+      <span class="wv-chip">📰 Caso Real</span>
+      <span class="wv-chip">📋 Resumão</span>
+    </div>
+    <button class="wv-btn" onclick="enterApp()">
+      ▶ Começar a Estudar
+    </button>
+  </div>
+</div>
+
+<header>
+  <div class="header-tag">Colégio Excelência · IED · 1º Período · 2026</div>
+  <h1>Origem e Fontes<br>do Direito</h1>
+  <p>Prof. Caio Filipe Duarte Araújo</p>
+  <div class="header-badge">⚖️ Sistema Interativo de Estudos</div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('conteudo')">📖 Conteúdo</button>
+  <button class="nav-btn" onclick="showSection('fontes')">⚖️ Fontes do Direito</button>
+  <button class="nav-btn" onclick="showSection('flashcards')">🃏 Flashcards</button>
+  <button class="nav-btn" onclick="showSection('quiz')">✏️ Quiz</button>
+  <button class="nav-btn" onclick="showSection('casoreal')">📰 Caso Real</button>
+  <button class="nav-btn" onclick="showSection('resumao')">📋 Resumão</button>
+</nav>
+
+<main>
+
+  <!-- ══════════ CONTEÚDO ══════════ -->
+  <section class="section active" id="conteudo">
+    <div class="section-title">📜 Origem Histórica do Direito</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-era">Pré-história</div>
+        <div class="tl-title">Costumes e Tabus Tribais</div>
+        <div class="tl-desc">O Direito nasce da necessidade de convivência. Antes das leis escritas, as regras eram transmitidas oralmente pelas tribos — tabus, ritos e costumes que todos deveriam respeitar.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-era">Antiguidade · ~1750 a.C.</div>
+        <div class="tl-title">📜 Código de Hamurabi</div>
+        <div class="tl-desc">Primeiro grande conjunto de <strong>leis escritas</strong> da história. Criado na Babilônia, estabeleceu penas para crimes e proteção a comerciantes. Famoso princípio: "olho por olho, dente por dente".</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-era">Roma Antiga · séc. III–VI d.C.</div>
+        <div class="tl-title">⚖️ Corpus Juris Civilis — Base do Nosso Direito</div>
+        <div class="tl-desc">Os romanos sistematizaram o Direito criando conceitos que usamos até hoje: <strong>pessoa, contrato, propriedade, família, herança</strong>. Separaram Direito Público do Privado. O Brasil herdou esse sistema — chamado <strong>Civil Law</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-era">Idade Média</div>
+        <div class="tl-title">✝️ Direito Ligado à Igreja</div>
+        <div class="tl-desc">A Igreja Católica exercia grande influência normativa. O Direito Canônico regulava casamento, herança e muito do que hoje é direito de família.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-era">Era Moderna · séc. XVIII–XX</div>
+        <div class="tl-title">🇧🇷 Constituições e Códigos Nacionais</div>
+        <div class="tl-desc">Os Estados nacionais criam suas próprias leis escritas e organizadas em códigos. No Brasil: Constituição Federal (1988), Código Civil (2002), Código Penal, CPC.</div>
+      </div>
+    </div>
+
+    <br>
+    <div class="section-title">🇧🇷 Civil Law: O Sistema Brasileiro</div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>Roma Antiga → Brasil</h3>
+        <p>O Brasil adota o sistema <strong>Civil Law</strong>, herdado dos romanos. As leis são <strong>escritas, organizadas em códigos</strong> e devem ser seguidas por todos.</p>
+        <div class="exemplo">↔ Diferente do Common Law (EUA/UK), onde decisões judiciais anteriores têm força de lei</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>O que é o Direito?</h3>
+        <p>Conjunto de <strong>regras criadas pelo Estado</strong> para organizar a vida em sociedade. Serve para evitar conflitos, garantir justiça e dar segurança jurídica.</p>
+        <div class="exemplo">⚖️ Ordem · 🤝 Justiça · 🛡️ Segurança</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:20px">🏛️ Pirâmide Normativa (Hierarquia das Leis)</div>
+    <div class="piramide-container">
+      <div class="piramide-nivel" style="width:160px;height:54px;background:#1a5c38;font-size:12px;">Constituição Federal</div>
+      <div style="font-size:18px;color:#ccc;line-height:.8">▼</div>
+      <div class="piramide-nivel" style="width:240px;height:48px;background:#2d7a50;font-size:12px;">Emendas / Tratados DH</div>
+      <div style="font-size:18px;color:#ccc;line-height:.8">▼</div>
+      <div class="piramide-nivel" style="width:330px;height:48px;background:#3d8f63;font-size:12px;">Leis Complementares e Ordinárias</div>
+      <div style="font-size:18px;color:#ccc;line-height:.8">▼</div>
+      <div class="piramide-nivel" style="width:420px;height:48px;background:#4caf80;font-size:12px;">Decretos e Regulamentos</div>
+    </div>
+    <p style="text-align:center;font-size:12.5px;color:var(--cinza-claro);margin-bottom:8px;">Topo = maior hierarquia · Nenhuma lei pode contrariar a Constituição</p>
+  </section>
+
+  <!-- ══════════ FONTES ══════════ -->
+  <section class="section" id="fontes">
+    <div class="section-title">💡 O que são Fontes do Direito?</div>
+    <p style="font-size:15px;margin-bottom:24px;line-height:1.7;">Assim como uma fonte d'água é a <em>origem da água</em>, as <strong>Fontes do Direito</strong> são a origem das normas jurídicas. Dividem-se em <strong>materiais</strong> (o "por quê") e <strong>formais</strong> (o "como").</p>
+
+    <div class="cards-grid">
+      <div class="card" style="border-color:#c9a227">
+        <div class="card-icon">🌱</div>
+        <h3>Fontes Materiais</h3>
+        <p><strong>Por que o Direito existe?</strong> São os fatos sociais, crises, guerras e mudanças que motivam a criação de normas.</p>
+        <div class="exemplo">Ex.: pandemia → novas leis de saúde pública</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h3>Fontes Formais</h3>
+        <p><strong>Como o Direito aparece?</strong> São as formas concretas em que a norma se manifesta: lei, costume, jurisprudência…</p>
+        <div class="exemplo">Ex.: Código Civil, Constituição Federal</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:10px">⚖️ As 5 Fontes Formais</div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>1. Lei — Fonte Primária</h3>
+        <p>Regra <strong>escrita, obrigatória</strong> para todos, criada pelo Poder Legislativo. Organizada em hierarquia (pirâmide).</p>
+        <div class="exemplo">Ex.: CDC art. 18 — vício do produto; CTB — multas de trânsito</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">👥</div>
+        <h3>2. Costume</h3>
+        <p>Prática social <strong>repetida e aceita</strong> como obrigatória, mesmo sem lei escrita.</p>
+        <div class="exemplo">Ex.: cheque pré-datado; usos do comércio rural</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>3. Jurisprudência</h3>
+        <p><strong>Decisões repetidas</strong> dos tribunais sobre o mesmo tema. Orienta como a lei deve ser aplicada.</p>
+        <div class="exemplo">Ex.: Súmulas do STF; TJMG — dano moral por nome sujo</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>4. Doutrina</h3>
+        <p>Obras e estudos dos <strong>grandes juristas</strong>. Explica, interpreta e critica as leis.</p>
+        <div class="exemplo">Ex.: Tartuce sobre posse de má-fé; Maria Helena Diniz</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>5. Analogia</h3>
+        <p>Usar uma lei de caso <strong>parecido</strong> quando não existe lei específica. Art. 4º da LINDB.</p>
+        <div class="exemplo">Ex.: crimes digitais → lei de invasão de domicílio (antes de 2012)</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:10px">🗺️ Fluxo de Aplicação das Fontes</div>
+    <div class="fluxo-box">
+      <div class="fluxo-row">
+        <div class="fluxo-q">Tem lei específica?</div>
+        <div class="fluxo-a">Sim → aplica-se a lei (Vade Mecum)</div>
+        <div class="fluxo-fonte">Lei</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">A lei é confusa?</div>
+        <div class="fluxo-a">Busca como os juízes a entendem</div>
+        <div class="fluxo-fonte">Jurisprudência</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">Não tem lei nenhuma?</div>
+        <div class="fluxo-a">Usa caso parecido ou prática social</div>
+        <div class="fluxo-fonte">Analogia / Costume</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">Precisa de argumento forte?</div>
+        <div class="fluxo-a">Cita o livro do professor</div>
+        <div class="fluxo-fonte">Doutrina</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FLASHCARDS ══════════ -->
+  <section class="section" id="flashcards">
+    <div class="section-title">🃏 Flashcards — Clique para Virar</div>
+    <div class="fc-progress-bar"><div class="fc-progress-fill" id="fcProgress"></div></div>
+    <div class="flashcard-wrap">
+      <div class="flashcard-scene" id="fcScene" onclick="flipCard()">
+        <div class="fc-face fc-front">
+          <div class="fc-label">Pergunta</div>
+          <div class="fc-question" id="fcQuestion"></div>
+          <div class="fc-hint">Toque para ver a resposta</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-label">Resposta</div>
+          <div class="fc-question" id="fcAnswer" style="font-size:16px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="fc-btn secondary" onclick="prevCard()">← Anterior</button>
+      <span class="fc-counter" id="fcCounter"></span>
+      <button class="fc-btn primary" onclick="nextCard()">Próximo →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ QUIZ ══════════ -->
+  <section class="section" id="quiz">
+    <div class="section-title">✏️ Quiz de Fixação</div>
+    <div id="quizContainer">
+      <div class="quiz-progress" id="quizDots"></div>
+      <div class="quiz-card">
+        <div class="quiz-q-num" id="qNum"></div>
+        <div class="quiz-q-text" id="qText"></div>
+        <div class="quiz-options" id="qOpts"></div>
+        <div class="quiz-feedback" id="qFeedback"></div>
+        <div class="quiz-nav">
+          <div class="quiz-score" id="qScore"></div>
+          <button class="fc-btn primary" id="qNextBtn" onclick="nextQuestion()" style="display:none">Próxima →</button>
+        </div>
+      </div>
+    </div>
+    <div id="quizResultado" style="display:none">
+      <div class="resultado-wrap">
+        <div class="resultado-emoji" id="resEmoji"></div>
+        <div class="resultado-titulo">Resultado Final</div>
+        <div class="resultado-score" id="resScore"></div>
+        <div class="resultado-msg" id="resMsg"></div>
+        <button class="fc-btn primary" onclick="restartQuiz()" style="margin:0 auto;display:block">🔁 Tentar Novamente</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CASO REAL ══════════ -->
+  <section class="section" id="casoreal">
+    <div class="section-title">📰 Caso Real: Lei Carolina Dieckmann</div>
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-tag">📁 Processo Histórico · 2011–2012</div>
+        <h3>Como a Analogia virou Lei — Lei 12.737/2012</h3>
+      </div>
+      <div class="caso-body">
+        <div class="caso-step">
+          <div class="caso-step-icon">🎬</div>
+          <div class="caso-step-content">
+            <h4>O Fato</h4>
+            <p>Em 2011, o computador da atriz <strong>Carolina Dieckmann</strong> foi invadido por hackers. Eles roubaram 36 fotos íntimas e tentaram extorqui-la pedindo R$ 10.000. Como ela não pagou, as fotos foram espalhadas pela internet.</p>
+          </div>
+        </div>
+        <div class="caso-step">
+          <div class="caso-step-icon">🕳️</div>
+          <div class="caso-step-content">
+            <h4>A Lacuna (O Problema Jurídico)</h4>
+            <p>Quando a polícia foi registrar o crime, descobriu que <strong>não existia o crime de "invasão de dispositivo informático"</strong> no Código Penal. O CP é de 1940 e não previa hackers ou roubo de arquivos digitais.</p>
+          </div>
+        </div>
+        <div class="caso-step">
+          <div class="caso-step-icon">🔄</div>
+          <div class="caso-step-content">
+            <h4>A Solução: Analogia (Art. 4º da LINDB)</h4>
+            <p>O juiz não pode deixar de julgar um crime por falta de lei. A lógica: <em>"Invadir o espaço digital (computador) é como invadir o espaço físico (casa)"</em>. Os criminosos foram enquadrados por <strong>Invasão de Domicílio + Furto + Extorsão</strong>.</p>
+          </div>
+        </div>
+        <div class="caso-step">
+          <div class="caso-step-icon">📜</div>
+          <div class="caso-step-content">
+            <h4>A Transformação em Lei</h4>
+            <p>O caso gerou comoção nacional e o Congresso criou a <strong>Lei 12.737/2012 ("Lei Carolina Dieckmann")</strong>, que inseriu o Art. 154-A no Código Penal: <em>"Invadir dispositivo informático alheio mediante violação de mecanismo de segurança"</em>. O que era Analogia virou Lei.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:10px">🔍 Mapeando as Fontes no Caso</div>
+    <div class="fluxo-box">
+      <div class="fluxo-row">
+        <div class="fluxo-q">Situação em 2011</div>
+        <div class="fluxo-a">Sem lei específica para crimes cibernéticos</div>
+        <div class="fluxo-fonte">Lacuna</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">Solução usada</div>
+        <div class="fluxo-a">Invasão de Domicílio + Extorsão por semelhança</div>
+        <div class="fluxo-fonte">Analogia</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">Resultado em 2012</div>
+        <div class="fluxo-a">Art. 154-A — crime de invasão digital</div>
+        <div class="fluxo-fonte">Lei</div>
+      </div>
+      <div class="fluxo-row">
+        <div class="fluxo-q">Outros exemplos de analogia</div>
+        <div class="fluxo-a">Drone com passageiros → leis de transporte aéreo</div>
+        <div class="fluxo-fonte">Analogia</div>
+      </div>
+    </div>
+
+    <div class="caso-card" style="margin-top:20px">
+      <div class="caso-header">
+        <div class="caso-tag">💡 Dica do Professor</div>
+        <h3>Outros Exemplos por Fonte</h3>
+      </div>
+      <div class="caso-body">
+        <div class="caso-step">
+          <div class="caso-step-icon">📋</div>
+          <div class="caso-step-content">
+            <h4>Lei (Fonte Primária)</h4>
+            <p><strong>Ex. CDC:</strong> TV quebrou em 10 dias → Art. 18 CDC: fornecedor tem 30 dias para resolver. <strong>Ex. CTB:</strong> avanço de sinal → valor da multa e pontuação na CNH.</p>
+          </div>
+        </div>
+        <div class="caso-step">
+          <div class="caso-step-icon">⚖️</div>
+          <div class="caso-step-content">
+            <h4>Jurisprudência</h4>
+            <p><strong>Ex. Dano Moral:</strong> TJMG costuma fixar R$ 5.000 por nome sujo indevido. <strong>Ex. Atraso de Voo:</strong> STJ decidiu que o dano moral só ocorre se o passageiro provar prejuízo concreto.</p>
+          </div>
+        </div>
+        <div class="caso-step">
+          <div class="caso-step-icon">👥</div>
+          <div class="caso-step-content">
+            <h4>Costume</h4>
+            <p><strong>Ex. Cheque Pré-datado:</strong> Na lei, cheque é à vista. O costume criou o "pré-datado" — tão forte que gerar indenização se compensado antes. <strong>Ex. Comércio Rural:</strong> regras de pesagem e entrega de gado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ RESUMÃO ══════════ -->
+  <section class="section" id="resumao">
+    <div class="section-title">📋 Resumão Geral</div>
+    <div class="resumao-grid">
+      <div class="resumao-item">
+        <div class="r-key">O que é o Direito?</div>
+        <div class="r-val">Conjunto de regras do Estado para organizar a sociedade</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Origem</div>
+        <div class="r-val">Nasce da necessidade humana de conviver em paz</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Influência Romana</div>
+        <div class="r-val">Brasil usa o sistema Civil Law — leis escritas e codificadas</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Fontes Materiais</div>
+        <div class="r-val">Os fatos sociais que motivam a criação das leis</div>
+      </div>
+      <div class="resumao-item" style="border-color:#1a5c38">
+        <div class="r-key">Lei ⭐ Principal</div>
+        <div class="r-val">Fonte formal primária — obrigatória e escrita</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Costume</div>
+        <div class="r-val">Prática social aceita como obrigatória</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Jurisprudência</div>
+        <div class="r-val">Decisões repetidas dos tribunais (Súmulas STF/STJ)</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Doutrina</div>
+        <div class="r-val">Estudos científicos de juristas em livros e artigos</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Analogia</div>
+        <div class="r-val">Usar norma similar quando não há lei específica (Art. 4º LINDB)</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Pirâmide Normativa</div>
+        <div class="r-val">CF → Emendas → Leis Comp./Ord. → Decretos</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Civil Law vs Common Law</div>
+        <div class="r-val">Brasil = leis escritas | EUA/UK = precedentes judiciais</div>
+      </div>
+      <div class="resumao-item">
+        <div class="r-key">Caso Histórico</div>
+        <div class="r-val">Lei Carolina Dieckmann (2012): analogia → lei escrita</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;background:linear-gradient(135deg,var(--verde),#0d3d24);border-radius:var(--radius);padding:24px;color:white;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ouro-claro);margin-bottom:10px">Recapitulando com o Prof. Caio</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.6;">
+        <li>✅ O Direito nasce da necessidade de viver em sociedade</li>
+        <li>✅ Surgiu na Antiguidade; Roma moldou nosso sistema (Civil Law)</li>
+        <li>✅ Fontes materiais = <em>por que</em> o Direito existe</li>
+        <li>✅ Fontes formais = <em>como</em> o Direito aparece (lei, costume, jurisprudência, doutrina, analogia)</li>
+        <li>✅ A Lei é a fonte principal — hierarquizada na pirâmide normativa</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  IED – Introdução ao Estudo do Direito · Colégio Excelência · 1º Período · Prof. Caio Filipe Duarte Araújo · 2026
+</footer>
+
+<script>
+// ─── NAV ───────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'flashcards') renderFlashcard();
+  if (id === 'quiz') initQuiz();
+}
+
+// ─── FLASHCARDS ────────────────────────────────────────
+const flashcards = [
+  { q: "Qual foi o primeiro grande conjunto de leis escritas da história?", a: "O Código de Hamurabi (1750 a.C.), criado na Babilônia." },
+  { q: "O que é o Direito?", a: "Conjunto de regras criadas pelo Estado para organizar a vida em sociedade, garantindo ordem, justiça e segurança." },
+  { q: "O que significa o Brasil usar o sistema Civil Law?", a: "As leis são escritas e organizadas em códigos. O juiz aplica a lei escrita — diferente do Common Law (EUA), onde valem os precedentes." },
+  { q: "O que são Fontes Materiais do Direito?", a: "São os fatos da vida — crises, guerras, mudanças sociais — que motivam a criação de normas. O 'por quê' do Direito." },
+  { q: "O que são Fontes Formais do Direito?", a: "As formas concretas em que o Direito aparece: lei, costume, jurisprudência, doutrina e analogia." },
+  { q: "Qual é a fonte primária do Direito? Por quê?", a: "A Lei — é escrita, obrigatória para todos e organizada na pirâmide normativa (CF no topo)." },
+  { q: "O que é Jurisprudência?", a: "O conjunto de decisões repetidas dos juízes e tribunais sobre um mesmo tema. Orienta como a lei é aplicada na prática." },
+  { q: "O que é Doutrina?", a: "As obras, livros e estudos dos grandes juristas que explicam, interpretam e criticam as leis." },
+  { q: "O que é Analogia? Qual artigo autoriza seu uso?", a: "Usar uma lei de caso parecido quando não há lei específica. Autorizada pelo Art. 4º da LINDB." },
+  { q: "O que é Costume no Direito?", a: "Prática social repetida e aceita como obrigatória, mesmo sem lei escrita. Ex.: cheque pré-datado." },
+  { q: "Como a Lei Carolina Dieckmann ilustra a relação entre Analogia e Lei?", a: "Antes de 2012, crimes digitais eram resolvidos por analogia (invasão de domicílio). O caso gerou pressão e nasceu a Lei 12.737/2012 — a analogia virou lei escrita." },
+  { q: "Qual a hierarquia da pirâmide normativa brasileira?", a: "CF (topo) → Emendas/Tratados DH → Leis Complementares e Ordinárias → Decretos e Regulamentos." },
+  { q: "Qual a diferença entre Civil Law e Common Law?", a: "Civil Law (Brasil): leis escritas e codificadas. Common Law (EUA/UK): precedentes judiciais têm força de lei." },
+  { q: "Cite um exemplo de Fonte Material do Direito.", a: "A pandemia de COVID-19 motivou a criação de novas leis de saúde, teletrabalho e locação." },
+  { q: "Por que Roma é tão importante para o Direito brasileiro?", a: "Roma criou o Corpus Juris Civilis e conceitos base como pessoa, contrato, propriedade e separação entre direito público e privado." },
+];
+
+let fcIdx = 0;
+let fcFlipped = false;
+
+function renderFlashcard() {
+  fcFlipped = false;
+  document.getElementById('fcScene').classList.remove('flipped');
+  const card = flashcards[fcIdx];
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').textContent = card.a;
+  document.getElementById('fcCounter').textContent = `${fcIdx + 1} / ${flashcards.length}`;
+  const pct = ((fcIdx) / flashcards.length) * 100;
+  document.getElementById('fcProgress').style.width = pct + '%';
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('fcScene').classList.toggle('flipped', fcFlipped);
+}
+
+function nextCard() {
+  fcIdx = (fcIdx + 1) % flashcards.length;
+  renderFlashcard();
+}
+
+function prevCard() {
+  fcIdx = (fcIdx - 1 + flashcards.length) % flashcards.length;
+  renderFlashcard();
+}
+
+// ─── QUIZ ──────────────────────────────────────────────
+const questions = [
+  { q: "Qual foi o primeiro grande conjunto de leis escritas da história?", opts: ["Corpus Juris Civilis","Código de Hamurabi","Constituição Francesa","Lei das XII Tábuas"], ans: 1, expl: "O Código de Hamurabi (1750 a.C.) é considerado o primeiro grande conjunto de leis escritas, criado pelo rei Hamurabi na Babilônia." },
+  { q: "As fontes materiais do Direito são:", opts: ["A lei, o costume e a jurisprudência","Os fatos sociais que originam o Direito","As decisões dos tribunais","Os decretos do governo"], ans: 1, expl: "Fontes materiais são os fatos da vida social (guerras, crises, pandemias) que motivam a criação das normas — o 'por quê' do Direito." },
+  { q: "A jurisprudência é formada por:", opts: ["Obras de juristas famosos","Decisões repetidas dos tribunais","Práticas sociais obrigatórias","Leis do Congresso Nacional"], ans: 1, expl: "Jurisprudência é o conjunto de decisões reiteradas dos tribunais sobre um mesmo tema. Ex.: Súmulas do STF." },
+  { q: "Quando o juiz usa uma lei parecida para um caso sem lei própria, isso é:", opts: ["Doutrina","Costume","Analogia","Equidade"], ans: 2, expl: "Analogia é o método de 'emprestar' uma lei de caso semelhante quando não há norma específica. Autorizado pelo Art. 4º da LINDB." },
+  { q: "O Brasil adota o sistema Civil Law. Isso significa que:", opts: ["Os juízes criam leis pelos seus julgamentos","As leis são escritas e organizadas em códigos","O costume tem mais força que a lei","O Judiciário é independente do Legislativo"], ans: 1, expl: "Civil Law = leis escritas, codificadas. O juiz aplica o que está na lei. Diferente do Common Law (EUA/UK) onde os precedentes têm força normativa." },
+  { q: "O cheque pré-datado é exemplo de qual fonte do Direito?", opts: ["Lei","Jurisprudência","Costume","Doutrina"], ans: 2, expl: "Cheque pré-datado é um Costume: na lei, o cheque é 'à vista', mas o costume brasileiro criou e consagrou o prazo acordado entre as partes." },
+  { q: "A Lei Carolina Dieckmann (Lei 12.737/2012) nasceu como resultado de:", opts: ["Uma decisão do STF","Uso da analogia em caso real de crime digital","Uma proposta de juristas acadêmicos","Costume popular consolidado"], ans: 1, expl: "Antes da lei, crimes cibernéticos eram resolvidos por analogia (invasão de domicílio). O caso da atriz gerou pressão pública e o Congresso criou a lei específica." },
+  { q: "Qual norma ocupa o topo da pirâmide normativa brasileira?", opts: ["Código Civil","Lei Complementar","Constituição Federal","Decreto Presidencial"], ans: 2, expl: "A Constituição Federal (1988) é a lei máxima do Brasil. Nenhuma outra norma pode contrariá-la — princípio da supremacia constitucional." },
+  { q: "Livros de Direito Civil escritos por professores como Tartuce são exemplos de:", opts: ["Jurisprudência","Analogia","Costume","Doutrina"], ans: 3, expl: "Doutrina é a produção científica de juristas — livros, artigos, teses — que interpretam e explicam as leis, auxiliando juízes e advogados." },
+  { q: "Fontes formais do Direito são:", opts: ["Os fatos sociais que geram o Direito","As formas concretas em que o Direito aparece","As decisões do Poder Executivo","Os costumes internacionais"], ans: 1, expl: "Fontes formais são as formas concretas de manifestação do Direito: lei, costume, jurisprudência, doutrina e analogia — o 'como' o Direito aparece." },
+];
+
+let qIdx = 0;
+let qScore = 0;
+let qAnswered = [];
+let quizInitialized = false;
+
+function initQuiz() {
+  if (quizInitialized) return;
+  quizInitialized = true;
+  qIdx = 0; qScore = 0; qAnswered = new Array(questions.length).fill(null);
+  renderDots();
+  renderQuestion();
+}
+
+function restartQuiz() {
+  quizInitialized = false;
+  document.getElementById('quizContainer').style.display = 'block';
+  document.getElementById('quizResultado').style.display = 'none';
+  initQuiz();
+}
+
+function renderDots() {
+  const dots = document.getElementById('quizDots');
+  dots.innerHTML = '';
+  questions.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'qp-dot' + (i === qIdx ? ' current' : '') +
+      (qAnswered[i] === true ? ' done-c' : qAnswered[i] === false ? ' done-w' : '');
+    dots.appendChild(d);
+  });
+}
+
+function renderQuestion() {
+  const q = questions[qIdx];
+  document.getElementById('qNum').textContent = `Questão ${qIdx + 1} de ${questions.length}`;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qScore').textContent = `Acertos: ${qScore}`;
+  document.getElementById('qNextBtn').style.display = 'none';
+  const fb = document.getElementById('qFeedback');
+  fb.className = 'quiz-feedback';
+  fb.textContent = '';
+
+  const opts = document.getElementById('qOpts');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'quiz-opt';
+    btn.innerHTML = `<div class="opt-letter">${letters[i]}</div><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    opts.appendChild(btn);
+  });
+  renderDots();
+}
+
+function selectAnswer(chosen) {
+  const q = questions[qIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('qFeedback');
+  const correct = chosen === q.ans;
+
+  opts.forEach((o, i) => {
+    o.classList.add('disabled');
+    if (i === q.ans) o.classList.add('correct');
+    else if (i === chosen && !correct) o.classList.add('wrong');
+  });
+
+  if (correct) { qScore++; qAnswered[qIdx] = true; }
+  else { qAnswered[qIdx] = false; }
+
+  fb.className = 'quiz-feedback show ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = (correct ? '✅ Correto! ' : '❌ Incorreto. ') + q.expl;
+  document.getElementById('qScore').textContent = `Acertos: ${qScore}`;
+  document.getElementById('qNextBtn').style.display = 'inline-block';
+  document.getElementById('qNextBtn').textContent = qIdx < questions.length - 1 ? 'Próxima →' : 'Ver Resultado';
+  renderDots();
+}
+
+function nextQuestion() {
+  if (qIdx < questions.length - 1) {
+    qIdx++;
+    renderQuestion();
+  } else {
+    showResultado();
+  }
+}
+
+function showResultado() {
+  document.getElementById('quizContainer').style.display = 'none';
+  document.getElementById('quizResultado').style.display = 'block';
+  const pct = Math.round((qScore / questions.length) * 100);
+  const emojis = pct === 100 ? '🏆' : pct >= 70 ? '⭐' : pct >= 50 ? '📚' : '💪';
+  const msgs = pct === 100 ? 'Perfeito! Domínio total do conteúdo!' : pct >= 70 ? 'Muito bem! Você está no caminho certo.' : pct >= 50 ? 'Bom esforço! Revise os flashcards e tente novamente.' : 'Continue estudando! Revise o conteúdo com calma.';
+  document.getElementById('resEmoji').textContent = emojis;
+  document.getElementById('resScore').innerHTML = `${qScore}<span> / ${questions.length} (${pct}%)</span>`;
+  document.getElementById('resMsg').textContent = msgs;
+}
+function enterApp() {
+  document.getElementById('welcome-overlay').classList.add('hide');
+}
+</script>
+</body>
+</html>
